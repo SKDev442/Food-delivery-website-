@@ -89,7 +89,7 @@
       <div class="p-6 sm:p-10 md:p-12 rounded-3xl bg-clayBg shadow-clay-card flex flex-col md:flex-row items-center justify-between gap-8">
         
         <div class="w-86 h-86 sm:w-84 sm:h-64 md:w-90 md:h-80 rounded-3xl bg-clayBg shadow-clay-card p-4 flex items-center justify-center overflow-hidden flex-shrink-0">
-          <img src="https://images.unsplash.com/photo-1589301760014-d929f3979dbc?w=500&auto=format&fit=crop" alt="Indian Feast" class="w-full h-full object-cover rounded-2xl shadow-inner" />
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQaenww4axZcrfDmMT8FBkOGanS-Bv9QFp-WlIWSfQKWReFlw1sP8Bg6yQZ&s=10" alt="Indian Feast" class="w-full h-full object-cover rounded-2xl shadow-inner" />
         </div>
 
         <div class="max-w-xl text-center md:text-left">
@@ -120,7 +120,7 @@
           <button onclick="filterCategory('all')" class="px-4 py-2 rounded-xl bg-saffron text-white font-bold text-sm shadow-clay-btn">All</button>
           <button onclick="filterCategory('snacks')" class="px-4 py-2 rounded-xl bg-clayBg text-gray-700 font-bold text-sm shadow-clay-btn hover:text-saffron">Snacks</button>
           <button onclick="filterCategory('sweets')" class="px-4 py-2 rounded-xl bg-clayBg text-gray-700 font-bold text-sm shadow-clay-btn hover:text-saffron">Sweets</button>
-          <button onclick="filterCategory('groceries')" class="px-4 py-2 rounded-xl bg-clayBg text-gray-700 font-bold text-sm shadow-clay-btn hover:text-saffron">Groceries</button>
+       
         </div>
       </div>
 
@@ -129,18 +129,7 @@
     </section>
 
     <!-- ================= SMART RECOMMENDATIONS SECTION ================= -->
-    <section class="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12 border-t border-gray-200/50">
-      <div class="flex items-center gap-3 mb-6">
-        <span class="text-2xl">🔥</span>
-        <div>
-          <h3 class="text-xl sm:text-2xl font-black text-gray-900">Recommended For You</h3>
-          <p class="text-xs sm:text-sm text-gray-500">Popular items customers love pairing together</p>
-        </div>
-      </div>
-
-      <!-- Recommendation Cards Grid -->
-      <div id="recommendations-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8"></div>
-    </section>
+   
   </div>
 
   <!-- ================= FOOTER ================= -->
@@ -229,18 +218,11 @@
   </div>
 
   <!-- ================= JAVASCRIPT LOGIC ================= -->
-  <script>
-    const productsData = [
-      { id: 1, name: "Bikaneri Bhujia", price: 199, category: "snacks", image: "https://images.unsplash.com/photo-1626132647523-66f5bf380027?w=400&auto=format&fit=crop", desc: "Crispy moth bean flour noodles seasoned with spices." },
-      { id: 2, name: "Gulab Jamun", price: 299, category: "sweets", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-Ygsz9a_h9duSz4neleWo-3rdlbXFCta2kB5svKjvPg&s=10", desc: "Soft milk-solid balls dipped in rose scented syrup." },
-      { id: 3, name: "Royal Basmati Rice", price: 499, category: "groceries", image: "https://images.unsplash.com/photo-1586201375761-83865001e31c?w=400&auto=format&fit=crop", desc: "Long-grain aromatic rice perfect for Biryani." },
-      { id: 4, name: "Kaju Katli", price: 599, category: "sweets", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcScVZ7hPZza0ED27ZUZl7NDKTEivS8jwjkEfs61GAO4GQ&s=10", desc: "Premium cashew fudge thin diamond slices." },
-      { id: 5, name: "Masala Chai Mix", price: 249, category: "groceries", image: "https://images.unsplash.com/photo-1576092768241-dec231879fc3?w=400&auto=format&fit=crop", desc: "Authentic spice blend with cardamom & ginger." },
-      { id: 6, name: "Samosa", price: 179, category: "snacks", image: "https://images.unsplash.com/photo-1601050690597-df0568f70950?w=400&auto=format&fit=crop", desc: "Mini crisp samosas stuffed with spicy lentils." },
-      { id: 7, name: "Ghar Ka Ghee (500ml)", price: 650, category: "groceries", image: "https://images.unsplash.com/photo-1631451095765-2c91616fc9e6?w=400&auto=format&fit=crop", desc: "Pure A2 cow milk clarified butter." },
-      { id: 8, name: "Dry Fruit Laddu", price: 450, category: "sweets", image: "https://images.unsplash.com/photo-1599488615731-7e5c2823ff28?w=400&auto=format&fit=crop", desc: "Healthy energy balls made with dates & nuts." }
-    ];
+  <script type="module">
+    import products from './products.js';
 
+   let productsData= products.slice(0,6);
+      
     // Load cart from localStorage so it persists globally
     let cart = JSON.parse(localStorage.getItem('desibites_cart')) || [];
 
@@ -254,18 +236,12 @@
             </div>
             <span class="text-xs font-bold text-saffron uppercase tracking-wider">${p.category}</span>
             <h3 class="font-black text-xl text-gray-900 mb-1">${p.name}</h3>
-            <p class="text-sm text-gray-500 mb-4 leading-snug">${p.desc}</p>
+            <p class="text-sm text-gray-500 mb-4 leading-snug">${p.description}</p>
           </div>
           
           <div class="flex items-center justify-between mt-2 pt-4 border-t border-gray-200/50">
             <span class="text-xl font-black text-saffron">₹${p.price}</span>
-            <button 
-              id="add-btn-${p.id}"
-              onclick="addToCart(${p.id}, this)"
-              class="px-4 py-2 rounded-xl bg-clayBg text-saffron font-bold shadow-clay-btn active:shadow-clay-btn-active hover:bg-saffron hover:text-white transition-all text-sm"
-            >
-              + Add
-            </button>
+            
           </div>
         </div>
       `).join('');
@@ -305,35 +281,7 @@
       }
     }
 
-    function addToCart(productId, buttonEl) {
-      const item = productsData.find(p => p.id === productId);
-      const existing = cart.find(c => c.id === productId);
-
-      if (existing) {
-        existing.qty += 1;
-      } else {
-        cart.push({ ...item, qty: 1 });
-      }
-
-      localStorage.setItem('desibites_cart', JSON.stringify(cart));
-      updateCartUI();
-
-      if (buttonEl) {
-        const originalText = buttonEl.innerHTML;
-        const originalClasses = buttonEl.className;
-        
-        buttonEl.innerHTML = buttonEl.innerText.trim() === '+' ? '✓' : '✓ Added';
-        buttonEl.className = `${originalClasses} !bg-cardamom !text-white animate-pop`;
-        buttonEl.disabled = true;
-
-        setTimeout(() => {
-          buttonEl.innerHTML = originalText;
-          buttonEl.className = originalClasses;
-          buttonEl.disabled = false;
-        }, 1000);
-      }
-    }
-
+    
     function updateCartUI() {
       const container = document.getElementById('cart-items-container');
       const totalEl = document.getElementById('cart-total-price');
@@ -383,6 +331,12 @@
       updateCartUI();
       toggleCartModal();
     }
+
+  /*   window.addToCart = addToCart; */
+window.filterCategory = filterCategory;
+window.toggleCartModal = toggleCartModal;
+window.removeFromCart = removeFromCart;
+window.completeOrder = completeOrder;
 
     // Initial render and cart synchronization on page load
     renderCatalog(productsData);
