@@ -5,7 +5,7 @@ const fs = require('fs');
 const path = require('path');
 const mysql = require('mysql2');
 const nodemailer = require('nodemailer');
-const PORT = 3000;
+const PORT = process.env.PORT;
 
 let cartStorageName = 'desibites_cart';
 
