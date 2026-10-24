@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Set Delivery Address - DesiBites & Eats</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-slate-100 min-h-screen flex items-center justify-center p-4">
+
+    <!-- Made max-w-sm instead of max-w-lg for a smaller, tighter box -->
+    <div class="w-full max-w-sm bg-white rounded-2xl shadow-lg border border-slate-200 overflow-hidden">
+        
+        <!-- Header Banner -->
+        <div class="bg-gradient-to-r from-orange-600 to-amber-600 p-5 text-white text-center">
+            <div class="w-10 h-10 bg-white/20 backdrop-blur-md rounded-xl mx-auto flex items-center justify-center text-xl mb-1.5">
+                📍
+            </div>
+            <h1 class="text-xl font-bold tracking-tight">Delivery Address</h1>
+            <p class="text-orange-100 text-xs mt-0.5">Where should we deliver your food?</p>
+        </div>
+
+        <!-- Form Body -->
+        <form id="addressForm" class="p-6 space-y-4">
+            
+           
+            <!-- Phone Number -->
+            <div>
+                <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1">Phone Number</label>
+                <input type="tel" id="addrPhone" required placeholder="e.g. +91 98765 43210"
+                    class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 text-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:bg-white transition-all" maxlength="10">
+            </div>
+
+            <!-- City -->
+            <div>
+                <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1">City</label>
+                <input type="text" id="addrCity" required  
+                 maxlength="20"  placeholder="e.g. New Delhi"
+                    class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 text-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:bg-white transition-all">
+            </div>
+
+            <!-- Detailed Street Address -->
+            <div>
+                <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1">Street Address / Landmark</label>
+                <textarea id="addrStreet" rows="2" required placeholder="House/Flat No., Street, Landmark"
+                    class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 text-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:bg-white transition-all resize-none"></textarea>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="pt-2 flex gap-2.5">
+                <button type="button" onclick="window.location.href='items.html'"
+                    class="w-1/3 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-semibold rounded-xl transition-all">
+                    Cancel
+                </button>
+                <button id="submit"
+                    class="w-2/3 py-2.5 bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-700 hover:to-amber-700 text-white text-sm font-bold rounded-xl shadow-md shadow-orange-500/20 transition-all active:scale-95">
+                    Save Address
+                </button>
+            </div>
+
+        </form>
+    </div>
+
+    <!-- Script to pre-fill existing data and save on submit -->
+ <script>
+ 
+ let form = document.getElementById('addressForm');
+let submitBtn = document.getElementById('submit');
+ 
+    let addressData;
+
+ form.addEventListener('submit',(e)=>{
+    e.preventDefault();
+
+
+
+    try{
+
+      addressData=   {
+        phone: document.getElementById('addrPhone').value,
+        city: document.getElementById('addrCity').value,
+        address: document.getElementById('addrStreet').value,
+        userId: localStorage.getItem('userId')
+    };
+
+    localStorage.setItem('address',JSON.stringify(addressData))
+      
+     handleSubmit();
+
+    }
+    catch(err){
+      console.log("error happend: " + err);
+    }
+ })
+
+ async function handleSubmit(){
+   
+    let data =  await fetch('/api/saveAddress',{
+        method: 'POST',
+        headers:{'content-type': 'application/json'},
+        body: JSON.stringify(addressData)
+    })
+
+    let response = await data.json();
+
+    if(response.success){
+     submitBtn.classList.remove('from-orange-600', 'to-amber-600', 'hover:from-orange-700', 'hover:to-amber-700', 'shadow-orange-500/20');
+    submitBtn.classList.add('from-emerald-600', 'to-green-600', 'hover:from-emerald-700', 'hover:to-green-700', 'shadow-emerald-500/20');
+    
+    // 2. Change the text to show success
+    submitBtn.innerText = 'Saved Successfully!';
+    }
+
+    //console.log(response);
+ }
+         
+
+ </script>
+</body>
+</html>

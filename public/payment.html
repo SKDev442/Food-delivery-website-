@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DesiBites & Western Eats | Checkout & Payment</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Custom Claymorphic Utilities via Tailwind Config -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            clayBg: '#F3F0E6',
+            saffron: '#E65100',
+            turmeric: '#FFB300',
+            cardamom: '#2E7D32',
+          },
+          boxShadow: {
+            'clay-card': '12px 12px 24px #d0cdb7, -12px -12px 24px #ffffff, inset 3px 3px 6px rgba(255, 255, 255, 0.7), inset -3px -3px 6px rgba(0, 0, 0, 0.05)',
+            'clay-btn': '6px 6px 12px #d0cdb7, -6px -6px 12px #ffffff, inset 2px 2px 4px rgba(255, 255, 255, 0.6)',
+            'clay-btn-active': 'inset 4px 4px 8px #b8b5a0, inset -4px -4px 8px #ffffff',
+            'clay-badge': '4px 4px 8px #d0cdb7, -4px -4px 8px #ffffff',
+          },
+          keyframes: {
+            pop: {
+              '0%': { transform: 'scale(1)' },
+              '50%': { transform: 'scale(1.12)' },
+              '100%': { transform: 'scale(1)' },
+            },
+            scaleUp: {
+              '0%': { transform: 'scale(0)', opacity: '0' },
+              '70%': { transform: 'scale(1.1)', opacity: '1' },
+              '100%': { transform: 'scale(1)', opacity: '1' },
+            },
+            checkMark: {
+              '0%': { strokeDashoffset: '50' },
+              '100%': { strokeDashoffset: '0' }
+            }
+          },
+          animation: {
+            pop: 'pop 0.35s ease-in-out',
+            scaleUp: 'scaleUp 0.4s ease-out forwards',
+            checkMark: 'checkMark 0.4s ease-out 0.2s forwards'
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-clayBg text-gray-800 min-h-screen font-sans">
+
+  <!-- ================= NAVBAR ================= -->
+  <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-200 shadow-sm">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+      
+      <!-- Brand Logo -->
+      <div class="flex items-center gap-3">
+        <div class="w-12 h-12 bg-orange-600 rounded-2xl shadow-md flex items-center justify-center text-white text-2xl font-black">
+          🍕
+        </div>
+        <div>
+          <span class="text-2xl font-black text-orange-600 tracking-tight block leading-none">DesiBites & Eats</span>
+          <span class="text-[10px] text-gray-500 font-bold uppercase tracking-widest">Secure Checkout</span>
+        </div>
+      </div>
+
+      <!-- Back to Shop -->
+      <a href="items.html" class="px-4 py-2 rounded-2xl bg-clayBg text-saffron font-bold text-sm shadow-clay-btn hover:bg-saffron hover:text-white transition-all">
+        &larr; Back to Menu
+      </a>
+
+    </div>
+  </header>
+
+  <!-- ================= CHECKOUT MAIN SECTION ================= -->
+  <main class="max-w-5xl mx-auto px-6 py-10">
+    <div class="mb-8">
+      <h1 class="text-3xl font-black text-gray-900">Finalize Payment 💳</h1>
+      <p class="text-sm text-gray-500 mt-1">Review your items and select your preferred payment mode</p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      
+      <!-- Left Column: Order Summary & Address Info -->
+      <div class="lg:col-span-2 space-y-6">
+        
+        <!-- Cart Items Summary Card -->
+        <div class="p-6 rounded-3xl bg-clayBg shadow-clay-card">
+          <h2 class="text-xl font-black text-gray-900 mb-4 flex items-center justify-between">
+            <span>Order Summary</span>
+            <span id="item-count-badge" class="text-xs bg-saffron text-white px-2.5 py-1 rounded-xl">0 Items</span>
+          </h2>
+          
+          <div id="checkout-cart-list" class="space-y-3 max-h-64 overflow-y-auto pr-2">
+            <!-- Dynamically injected cart items -->
+            <p class="text-gray-500 text-sm italic">Loading your cart items...</p>
+          </div>
+        </div>
+
+        <!-- Delivery & User Info Card -->
+        <div class="p-6 rounded-3xl bg-clayBg shadow-clay-card">
+          <h2 class="text-xl font-black text-gray-900 mb-3">Delivery Information</h2>
+          <div class="space-y-2 text-sm text-gray-700">
+            <p><strong>Customer Name:</strong> <span id="checkout-username" class="font-medium text-gray-900">-</span></p>
+            <p><strong>Delivery Address:</strong> <span id="checkout-address" class="font-medium text-gray-900">-</span></p>
+            <p><strong> Contact Number:</strong> <span id="checkout-phone" class="font-medium text-gray-900">-</span></p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Right Column: Payment Modes & Confirm Button -->
+      <div class="space-y-6">
+        
+        <div class="p-6 rounded-3xl bg-clayBg shadow-clay-card flex flex-col justify-between">
+          <div>
+            <h2 class="text-xl font-black text-gray-900 mb-4">Payment Method</h2>
+            
+            <!-- Payment Mode Selection -->
+            <div class="space-y-3 mb-6">
+              
+              <!-- Cash on Delivery -->
+              <label class="flex items-center gap-3 p-4 rounded-2xl bg-clayBg shadow-clay-btn cursor-pointer transition-all hover:border-saffron">
+                <input type="radio" name="paymentMode" value="delivery" checked class="w-4 h-4 text-saffron accent-saffron">
+                <div>
+                  <span class="font-bold text-gray-900 block text-sm">Cash on Delivery</span>
+                  <span class="text-xs text-gray-500">Pay when your order arrives</span>
+                </div>
+              </label>
+
+              <!-- UPI Payment -->
+             <!--  <label class="flex items-center gap-3 p-4 rounded-2xl bg-clayBg shadow-clay-btn cursor-pointer transition-all hover:border-saffron">
+                <input type="radio" name="paymentMode" value="upi" class="w-4 h-4 text-saffron accent-saffron" >
+                <div>
+                  <span class="font-bold text-gray-900 block text-sm">UPI / QR Code</span>
+                  <span class="text-xs text-gray-500">Google Pay, PhonePe, Paytm</span>
+                </div>
+              </label> -->
+
+            </div>
+
+            <!-- Price Breakdown -->
+            <div class="border-t border-gray-300/60 pt-4 mb-6 space-y-2 text-sm">
+              <div class="flex justify-between text-gray-600">
+                <span>Subtotal</span>
+                <span>₹<span id="subtotal-price">0</span></span>
+              </div>
+              <div class="flex justify-between text-gray-600">
+                <span>Delivery Fee</span>
+                <span class="text-cardamom font-bold">FREE</span>
+              </div>
+              <div class="flex justify-between text-lg font-black text-gray-900 pt-2 border-t border-gray-200">
+                <span>Total Payable</span>
+                <span class="text-saffron">₹<span id="final-total-price">0</span></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Confirm Button -->
+          <button 
+            id="confirm-payment-btn"
+            onclick="processPayment()"
+            class="w-full py-4 rounded-2xl bg-saffron text-white font-bold text-lg shadow-clay-btn active:shadow-clay-btn-active hover:bg-orange-700 transition-all text-center"
+          >
+            Confirm & Pay 🛵
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ================= SUCCESS ANIMATION MODAL ================= -->
+  <div id="success-modal" class="fixed inset-0 z-50 hidden bg-black/40 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="w-full max-w-sm bg-clayBg rounded-3xl p-8 shadow-clay-card flex flex-col items-center text-center animate-scaleUp">
+      
+      <!-- Animated Green Circle with White Tick -->
+      <div class="w-24 h-24 rounded-full bg-cardamom flex items-center justify-center shadow-lg mb-6 relative">
+        <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
+        </svg>
+      </div>
+
+      <h3 class="text-2xl font-black text-gray-900 mb-2">Order Confirmed!</h3>
+      <p class="text-sm text-gray-600 mb-6">Please wait till we bring your order.</p>
+
+      <button 
+        onclick="window.location.href='items.html'"
+        class="w-full py-3.5 rounded-2xl bg-saffron text-white font-bold shadow-clay-btn active:shadow-clay-btn-active transition-all"
+      >
+        Back to Home
+      </button>
+    </div>
+  </div>
+
+  <!-- ================= JAVASCRIPT LOGIC ================= -->
+  <script>
+    let tp;
+    // Load User and Cart Details on Page Load
+    document.addEventListener('DOMContentLoaded', () => {
+      const username = localStorage.getItem('username') || 'Guest User';
+      const address = localStorage.getItem('address');
+      
+      // Check address safety
+      if (!address || address === "null" || address.trim() === "") {
+        alert("Please set your delivery address before proceeding to payment.");
+        window.location.href = 'address.html';
+        return;
+      }
+
+      document.getElementById('checkout-username').innerText = username;
+      document.getElementById('checkout-address').innerText = JSON.parse(address).address;
+      document.getElementById('checkout-phone').innerText ="+91 " + JSON.parse(address).phone;
+
+      loadCheckoutCart();
+    });
+
+    function loadCheckoutCart() {
+      let cartData = localStorage.getItem('desibites_cart');
+      let cart = cartData ? JSON.parse(cartData) : [];
+      
+      const container = document.getElementById('checkout-cart-list');
+      const badge = document.getElementById('item-count-badge');
+      const subtotalEl = document.getElementById('subtotal-price');
+      const finalTotalEl = document.getElementById('final-total-price');
+
+      if (cart.length === 0) {
+        container.innerHTML = '<p class="text-gray-500 text-sm text-center py-4">Your cart is empty.</p>';
+        badge.innerText = '0 Items';
+        subtotalEl.innerText = '0';
+        finalTotalEl.innerText = '0';
+        return;
+      }
+
+      const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
+      const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+      
+      tp= totalPrice;
+      badge.innerText = `${totalItems} Items`;
+      subtotalEl.innerText = totalPrice;
+      finalTotalEl.innerText = totalPrice;
+
+      container.innerHTML = cart.map(item => `
+        <div class="flex items-center justify-between p-3 rounded-2xl bg-clayBg shadow-clay-btn">
+          <div class="flex items-center gap-3">
+            <img src="${item.image}" alt="${item.name}" class="w-10 h-10 rounded-xl object-cover shadow-inner flex-shrink-0" />
+            <div>
+              <h4 class="font-bold text-gray-900 text-sm">${item.name}</h4>
+              <p class="text-xs text-gray-500">₹${item.price} × ${item.qty}</p>
+            </div>
+          </div>
+          <span class="font-black text-saffron text-sm">₹${item.price * item.qty}</span>
+        </div>
+      `).join('');
+    }
+
+
+ function processPayment(){
+
+    placeOrder();
+ }
+
+    
+ 
+
+  async function placeOrder() {
+      
+     let cartData= localStorage.getItem('desibites_cart');
+     let cartItems= cartData ? JSON.parse(cartData) : [];
+     let userId= localStorage.getItem('userId');
+     let userName= localStorage.getItem('username');
+
+     let savedAddress= localStorage.getItem('address')
+
+     if (!savedAddress || savedAddress === "null" ) {
+    alert("You have not given the address.");
+    return; // Stops the code here
+}
+
+     let cartObj={
+      userName: userName,
+      userId: userId,
+      price: tp,
+      cartData:cartData
+     };
+      
+     if(cartItems.length ==0){
+        alert("Please add something in the cart ");
+        return;
+     }
+    
+     try{
+       
+      let response = await fetch('/api/orders/',{
+        method: 'POST',
+        headers:{
+          'content-type':'application/json'
+        },
+        
+        body: JSON.stringify(cartObj)
+      });
+
+      let result = await response.json();
+      
+      if(result){
+
+        document.getElementById('success-modal').classList.remove('hidden');
+      }
+
+     }
+
+     catch(e){
+      console.log("ERROR by sk : ",e);
+     }
+
+      cart = [];
+      localStorage.setItem('desibites_cart', '[]');
+     
+     /*  updateCartUI();
+      toggleCartModal(); */
+    }
+  </script>
+</body>
+</html>

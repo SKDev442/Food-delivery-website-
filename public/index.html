@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DesiBites | Fresh Indian Snacks & Groceries</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Custom Claymorphic Utilities via Tailwind Config -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            clayBg: '#F3F0E6',
+            saffron: '#E65100',
+            turmeric: '#FFB300',
+            cardamom: '#2E7D32',
+          },
+          boxShadow: {
+            'clay-card': '12px 12px 24px #d0cdb7, -12px -12px 24px #ffffff, inset 3px 3px 6px rgba(255, 255, 255, 0.7), inset -3px -3px 6px rgba(0, 0, 0, 0.05)',
+            'clay-btn': '6px 6px 12px #d0cdb7, -6px -6px 12px #ffffff, inset 2px 2px 4px rgba(255, 255, 255, 0.6)',
+            'clay-btn-active': 'inset 4px 4px 8px #b8b5a0, inset -4px -4px 8px #ffffff',
+            'clay-badge': '4px 4px 8px #d0cdb7, -4px -4px 8px #ffffff',
+          },
+          keyframes: {
+            pop: {
+              '0%': { transform: 'scale(1)' },
+              '50%': { transform: 'scale(1.12)' },
+              '100%': { transform: 'scale(1)' },
+            }
+          },
+          animation: {
+            pop: 'pop 0.35s ease-in-out',
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-clayBg text-gray-800 min-h-screen font-sans flex flex-col justify-between">
+
+  <!-- ================= NAVBAR ================= -->
+  <header class="sticky top-0 z-50 bg-clayBg/90 backdrop-blur-md border-b border-gray-200/40">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex flex-wrap items-center justify-between gap-4">
+      
+      <!-- Brand Logo -->
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 sm:w-12 sm:h-12 bg-saffron rounded-2xl shadow-clay-badge flex items-center justify-center text-white text-xl sm:text-2xl font-black">
+          🛺
+        </div>
+        <span class="text-xl sm:text-2xl font-black text-saffron tracking-tight">DesiBites</span>
+      </div>
+
+      <!-- Navigation, Login/Sign In & Cart -->
+      <div class="flex items-center gap-2 sm:gap-3">
+        
+        <!-- Login Button -->
+        <a href="login.html">
+          <button class="px-3 sm:px-4 py-2 sm:py-2.5 rounded-2xl bg-clayBg text-gray-700 font-bold shadow-clay-btn hover:text-saffron transition-all text-xs sm:text-sm">
+            Login
+          </button>
+        </a>
+
+        <!-- Sign In Button -->
+        <a href="signup.html">
+          <button class="px-3 sm:px-4 py-2 sm:py-2.5 rounded-2xl bg-saffron text-white font-bold shadow-clay-btn active:shadow-clay-btn-active transition-all text-xs sm:text-sm">
+            Sign Up
+          </button>
+        </a>
+
+        <!-- Basket Button -->
+        <button onclick="toggleCartModal()" class="relative px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-2xl bg-saffron text-white font-bold shadow-clay-btn active:shadow-clay-btn-active transition-all flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm">
+          <span>🛒 Basket</span>
+          <span id="cart-badge-count" class="bg-turmeric text-gray-900 text-xs px-1.5 sm:px-2 py-0.5 rounded-full font-extrabold">0</span>
+        </button>
+
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ================= MAIN WRAPPER ================= -->
+  <div class="flex-grow">
+    <!-- ================= HERO SECTION ================= -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
+      <div class="p-6 sm:p-10 md:p-12 rounded-3xl bg-clayBg shadow-clay-card flex flex-col md:flex-row items-center justify-between gap-8">
+        
+        <div class="w-86 h-86 sm:w-84 sm:h-64 md:w-90 md:h-80 rounded-3xl bg-clayBg shadow-clay-card p-4 flex items-center justify-center overflow-hidden flex-shrink-0">
+          <img src="https://images.unsplash.com/photo-1589301760014-d929f3979dbc?w=500&auto=format&fit=crop" alt="Indian Feast" class="w-full h-full object-cover rounded-2xl shadow-inner" />
+        </div>
+
+        <div class="max-w-xl text-center md:text-left">
+          
+          <h1 class="text-3xl sm:text-4xl md:text-5xl font-black text-gray-900 leading-tight mb-4">
+            Order Authentic <br/><span class="text-saffron">Indian Snacks & Groceries</span>
+          </h1>
+          <p class="text-sm sm:text-base text-gray-600 mb-6 leading-relaxed">
+            From crispy Namkeen and festive Sweets to everyday staple Spices and Basmati Rice. Freshly sourced and shipped right to your door.
+          </p>
+          <a href="./items.html" class="inline-block px-6 sm:px-8 py-3.5 sm:py-4 rounded-2xl bg-cardamom text-white font-bold text-base sm:text-lg shadow-clay-btn hover:bg-green-800 transition-all">
+            Explore Catalog 🛍️
+          </a>
+        </div>
+
+        
+
+      </div>
+    </section>
+
+    <!-- ================= MAIN CATALOG ================= -->
+    <section id="catalog" class="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
+      <div class="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
+        <h2 class="text-2xl sm:text-3xl font-black text-gray-900">Popular Snacks & Essentials</h2>
+        
+        <!-- Category Filter Pills -->
+        <div class="flex flex-wrap gap-2" id="category-filters">
+          <button onclick="filterCategory('all')" class="px-4 py-2 rounded-xl bg-saffron text-white font-bold text-sm shadow-clay-btn">All</button>
+          <button onclick="filterCategory('snacks')" class="px-4 py-2 rounded-xl bg-clayBg text-gray-700 font-bold text-sm shadow-clay-btn hover:text-saffron">Snacks</button>
+          <button onclick="filterCategory('sweets')" class="px-4 py-2 rounded-xl bg-clayBg text-gray-700 font-bold text-sm shadow-clay-btn hover:text-saffron">Sweets</button>
+          <button onclick="filterCategory('groceries')" class="px-4 py-2 rounded-xl bg-clayBg text-gray-700 font-bold text-sm shadow-clay-btn hover:text-saffron">Groceries</button>
+        </div>
+      </div>
+
+      <!-- Dynamic Product Cards Grid -->
+      <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8"></div>
+    </section>
+
+    <!-- ================= SMART RECOMMENDATIONS SECTION ================= -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12 border-t border-gray-200/50">
+      <div class="flex items-center gap-3 mb-6">
+        <span class="text-2xl">🔥</span>
+        <div>
+          <h3 class="text-xl sm:text-2xl font-black text-gray-900">Recommended For You</h3>
+          <p class="text-xs sm:text-sm text-gray-500">Popular items customers love pairing together</p>
+        </div>
+      </div>
+
+      <!-- Recommendation Cards Grid -->
+      <div id="recommendations-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8"></div>
+    </section>
+  </div>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="bg-clayBg border-t border-gray-200/60 mt-16 py-12 px-4 sm:px-6 shadow-inner">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
+      
+      <div>
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-10 h-10 bg-saffron rounded-2xl shadow-clay-badge flex items-center justify-center text-white text-xl font-black">
+            🛺
+          </div>
+          <span class="text-xl font-black text-saffron tracking-tight">DesiBites</span>
+        </div>
+        <p class="text-xs sm:text-sm text-gray-600 leading-relaxed">
+          Bringing the finest traditional Indian tastes, authentic snacks, and daily groceries right to your doorstep with 30-minute delivery.
+        </p>
+      </div>
+
+      <div>
+        <h4 class="font-bold text-gray-900 text-base mb-4">Quick Links</h4>
+        <ul class="space-y-2 text-sm">
+          <li><a href="items.html" class="text-gray-600 hover:text-saffron transition-colors">Browse Catalog</a></li>
+          <li><a href="login.html" class="text-gray-600 hover:text-saffron transition-colors">Account Login</a></li>
+          <li><a href="signup.html" class="text-gray-600 hover:text-saffron transition-colors">Register Account</a></li>
+          <li><a href="address.html" class="text-gray-600 hover:text-saffron transition-colors">Manage Address</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="font-bold text-gray-900 text-base mb-4">Categories</h4>
+        <ul class="space-y-2 text-sm">
+          <li><button onclick="filterCategory('snacks')" class="text-gray-600 hover:text-saffron transition-colors text-left">Crispy Namkeen & Snacks</button></li>
+          <li><button onclick="filterCategory('sweets')" class="text-gray-600 hover:text-saffron transition-colors text-left">Festive Indian Sweets</button></li>
+          <li><button onclick="filterCategory('groceries')" class="text-gray-600 hover:text-saffron transition-colors text-left">Staples & Spices</button></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="font-bold text-gray-900 text-base mb-4">Connect With Us</h4>
+        <p class="text-xs sm:text-sm text-gray-600 mb-4">Subscribe to get special discounts on festive mithai and snacks.</p>
+        <div class="flex gap-2">
+          <input type="email" placeholder="Enter your email" class="px-4 py-2.5 rounded-xl bg-clayBg text-sm shadow-clay-btn focus:outline-none focus:ring-2 focus:ring-saffron w-full" />
+          <button class="px-4 py-2.5 rounded-xl bg-saffron text-white font-bold shadow-clay-btn hover:bg-orange-700 transition-all text-sm">Join</button>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="max-w-7xl mx-auto mt-8 pt-6 border-t border-gray-300/40 text-center text-xs text-gray-500">
+      &copy; 2026 DesiBites & Eats. All rights reserved. Built with passion & claymorphism.
+    </div>
+  </footer>
+
+  <!-- ================= SLIDE-OVER CART MODAL ================= -->
+  <div id="cart-modal" class="fixed inset-0 z-50 hidden bg-black/30 backdrop-blur-sm flex justify-end">
+    <div class="w-full max-w-md bg-clayBg h-full p-6 shadow-2xl flex flex-col justify-between overflow-y-auto">
+      
+      <div>
+        <div class="flex items-center justify-between pb-4 border-b border-gray-300/40 mb-6">
+          <h3 class="text-2xl font-black text-gray-900">Your Basket 🧺</h3>
+          <button onclick="toggleCartModal()" class="w-10 h-10 rounded-2xl bg-clayBg shadow-clay-btn text-lg font-bold">✕</button>
+        </div>
+
+        <!-- Cart Items List -->
+        <div id="cart-items-container" class="space-y-4">
+          <p class="text-gray-500 text-center py-8">Your shopping basket is currently empty.</p>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="pt-6 border-t border-gray-300/40">
+        <div class="flex justify-between items-center mb-4">
+          <span class="text-gray-600 font-semibold">Total Amount</span>
+          <span class="text-2xl font-black text-saffron">₹<span id="cart-total-price">0</span></span>
+        </div>
+        
+        <button 
+          onclick="completeOrder()" 
+          class="w-full py-4 rounded-2xl bg-saffron text-white font-bold text-lg shadow-clay-btn active:shadow-clay-btn-active transition-all"
+        >
+          Complete Order 
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ================= JAVASCRIPT LOGIC ================= -->
+  <script>
+    const productsData = [
+      { id: 1, name: "Bikaneri Bhujia", price: 199, category: "snacks", image: "https://images.unsplash.com/photo-1626132647523-66f5bf380027?w=400&auto=format&fit=crop", desc: "Crispy moth bean flour noodles seasoned with spices." },
+      { id: 2, name: "Gulab Jamun", price: 299, category: "sweets", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-Ygsz9a_h9duSz4neleWo-3rdlbXFCta2kB5svKjvPg&s=10", desc: "Soft milk-solid balls dipped in rose scented syrup." },
+      { id: 3, name: "Royal Basmati Rice", price: 499, category: "groceries", image: "https://images.unsplash.com/photo-1586201375761-83865001e31c?w=400&auto=format&fit=crop", desc: "Long-grain aromatic rice perfect for Biryani." },
+      { id: 4, name: "Kaju Katli", price: 599, category: "sweets", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcScVZ7hPZza0ED27ZUZl7NDKTEivS8jwjkEfs61GAO4GQ&s=10", desc: "Premium cashew fudge thin diamond slices." },
+      { id: 5, name: "Masala Chai Mix", price: 249, category: "groceries", image: "https://images.unsplash.com/photo-1576092768241-dec231879fc3?w=400&auto=format&fit=crop", desc: "Authentic spice blend with cardamom & ginger." },
+      { id: 6, name: "Samosa", price: 179, category: "snacks", image: "https://images.unsplash.com/photo-1601050690597-df0568f70950?w=400&auto=format&fit=crop", desc: "Mini crisp samosas stuffed with spicy lentils." },
+      { id: 7, name: "Ghar Ka Ghee (500ml)", price: 650, category: "groceries", image: "https://images.unsplash.com/photo-1631451095765-2c91616fc9e6?w=400&auto=format&fit=crop", desc: "Pure A2 cow milk clarified butter." },
+      { id: 8, name: "Dry Fruit Laddu", price: 450, category: "sweets", image: "https://images.unsplash.com/photo-1599488615731-7e5c2823ff28?w=400&auto=format&fit=crop", desc: "Healthy energy balls made with dates & nuts." }
+    ];
+
+    // Load cart from localStorage so it persists globally
+    let cart = JSON.parse(localStorage.getItem('desibites_cart')) || [];
+
+    function renderCatalog(items) {
+      const grid = document.getElementById('product-grid');
+      grid.innerHTML = items.map(p => `
+        <div class="p-6 rounded-3xl bg-clayBg shadow-clay-card flex flex-col justify-between transition-transform hover:-translate-y-1">
+          <div>
+            <div class="w-full h-36 rounded-2xl bg-clayBg shadow-clay-btn overflow-hidden p-2 mb-4">
+              <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover rounded-xl" />
+            </div>
+            <span class="text-xs font-bold text-saffron uppercase tracking-wider">${p.category}</span>
+            <h3 class="font-black text-xl text-gray-900 mb-1">${p.name}</h3>
+            <p class="text-sm text-gray-500 mb-4 leading-snug">${p.desc}</p>
+          </div>
+          
+          <div class="flex items-center justify-between mt-2 pt-4 border-t border-gray-200/50">
+            <span class="text-xl font-black text-saffron">₹${p.price}</span>
+            <button 
+              id="add-btn-${p.id}"
+              onclick="addToCart(${p.id}, this)"
+              class="px-4 py-2 rounded-xl bg-clayBg text-saffron font-bold shadow-clay-btn active:shadow-clay-btn-active hover:bg-saffron hover:text-white transition-all text-sm"
+            >
+              + Add
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function renderRecommendations() {
+      const recommendations = productsData.filter(p => [2, 4, 5, 6].includes(p.id));
+      const recGrid = document.getElementById('recommendations-grid');
+
+      recGrid.innerHTML = recommendations.map(p => `
+        <div class="p-5 rounded-3xl bg-clayBg shadow-clay-card flex items-center justify-between">
+          <div class="flex items-center gap-4">
+            <div class="w-16 h-16 rounded-2xl bg-clayBg shadow-clay-btn overflow-hidden p-1 flex-shrink-0">
+              <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover rounded-xl" />
+            </div>
+            <div>
+              <h4 class="font-bold text-gray-900 text-sm">${p.name}</h4>
+              <p class="text-saffron font-black text-sm">₹${p.price}</p>
+            </div>
+          </div>
+          <button 
+            id="rec-btn-${p.id}"
+            onclick="addToCart(${p.id}, this)"
+            class="w-10 h-10 rounded-xl bg-saffron text-white font-bold shadow-clay-btn flex items-center justify-center transition-all flex-shrink-0"
+          >
+            +
+          </button>
+        </div>
+      `).join('');
+    }
+
+    function filterCategory(cat) {
+      if (cat === 'all') {
+        renderCatalog(productsData);
+      } else {
+        renderCatalog(productsData.filter(p => p.category === cat));
+      }
+    }
+
+    function addToCart(productId, buttonEl) {
+      const item = productsData.find(p => p.id === productId);
+      const existing = cart.find(c => c.id === productId);
+
+      if (existing) {
+        existing.qty += 1;
+      } else {
+        cart.push({ ...item, qty: 1 });
+      }
+
+      localStorage.setItem('desibites_cart', JSON.stringify(cart));
+      updateCartUI();
+
+      if (buttonEl) {
+        const originalText = buttonEl.innerHTML;
+        const originalClasses = buttonEl.className;
+        
+        buttonEl.innerHTML = buttonEl.innerText.trim() === '+' ? '✓' : '✓ Added';
+        buttonEl.className = `${originalClasses} !bg-cardamom !text-white animate-pop`;
+        buttonEl.disabled = true;
+
+        setTimeout(() => {
+          buttonEl.innerHTML = originalText;
+          buttonEl.className = originalClasses;
+          buttonEl.disabled = false;
+        }, 1000);
+      }
+    }
+
+    function updateCartUI() {
+      const container = document.getElementById('cart-items-container');
+      const totalEl = document.getElementById('cart-total-price');
+      const badgeCount = document.getElementById('cart-badge-count');
+
+      const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
+      const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+
+      badgeCount.innerText = totalItems;
+      totalEl.innerText = totalPrice;
+
+      if (cart.length === 0) {
+        container.innerHTML = '<p class="text-gray-500 text-center py-8">Your shopping basket is currently empty.</p>';
+        return;
+      }
+
+      container.innerHTML = cart.map((item, index) => `
+        <div class="p-4 rounded-2xl bg-clayBg shadow-clay-btn flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <img src="${item.image}" alt="${item.name}" class="w-10 h-10 rounded-xl object-cover shadow-inner flex-shrink-0" />
+            <div>
+              <h4 class="font-bold text-gray-900 text-sm">${item.name}</h4>
+              <p class="text-xs text-gray-500">₹${item.price} × ${item.qty}</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="font-black text-saffron text-sm">₹${item.price * item.qty}</span>
+            <button onclick="removeFromCart(${index})" class="text-red-500 font-bold ml-2">✕</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function removeFromCart(index) {
+      cart.splice(index, 1);
+      localStorage.setItem('desibites_cart', JSON.stringify(cart));
+      updateCartUI();
+    }
+
+    function toggleCartModal() {
+      document.getElementById('cart-modal').classList.toggle('hidden');
+    }
+
+    function completeOrder() {
+      alert('Demo Order Placed Successfully!');
+      cart = [];
+      updateCartUI();
+      toggleCartModal();
+    }
+
+    // Initial render and cart synchronization on page load
+    renderCatalog(productsData);
+    renderRecommendations();
+    updateCartUI();
+  </script>
+</body>
+</html>

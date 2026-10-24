@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DesiBites | Admin Orders Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen">
+  <div class="max-w-6xl mx-auto bg-white p-4 rounded-2xl shadow-md">
+    <div class="flex justify-between items-center mb-6">
+      <h1 class=" font-black text-gray-900">📦 Live Orders Dashboard</h1>
+      <div class="flex gap-5">
+      <a href="/" class="px-4 py-2 bg-orange-600 text-white font-bold rounded-xl text-sm">Go to Home </a>
+      <a href="/dashboard/users" class="px-4 py-2 bg-blue-600 text-white font-bold rounded-xl text-sm">View Users</a>
+      </div>
+    </div>
+
+    <!-- Orders Table -->
+    <div class="overflow-x-auto mx-auto sm:mx-0 px-4 sm:px-0">
+    <table class="w-full text-left border-collapse min-w-[500px] sm:min-w-full">
+      <thead>
+        <tr class="border-b bg-gray-50 text-gray-600 text-xs sm:text-sm uppercase tracking-wider">
+          <th class="p-3 sm:p-4">ID</th>
+          <th class="p-3 sm:p-4">User ID</th>
+          <th class="p-3 sm:p-4">Name</th>
+          <th class="p-3 sm:p-4">Price</th>
+          <th class="p-3 sm:p-4 text-center">Action</th> 
+        </tr>
+      </thead>
+      <tbody id="orders-table-body" class="divide-y divide-gray-100 text-xs sm:text-sm">
+        <tr>
+          <td colspan="5" class="p-6 text-center text-gray-500">Loading orders from database...</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+  <!-- ================= DELETE / MANAGE ITEMS SECTION ================= -->
+<div class="max-w-6xl mx-auto p-6 bg-white rounded-xl shadow-md mt-10">
+  <div class="flex justify-between items-center mb-6">
+    <h2 class="text-2xl font-bold text-gray-800">Manage Menu Items</h2>
+   
+  </div>
+
+  <!-- Items Table Container -->
+  <div class="overflow-x-auto">
+    <table class="min-w-full divide-y divide-gray-200">
+      <thead class="bg-gray-50">
+        <tr>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Image</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
+          <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Action</th>
+        </tr>
+      </thead>
+      <tbody id="manageItemsTableBody" class="bg-white divide-y divide-gray-200">
+        <tr>
+          <td colspan="6" class="px-6 py-4 text-center text-gray-500">Loading items...</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+  <!-- Add New Item Section -->
+<div class="max-w-2xl mx-auto bg-white p-8 rounded-3xl shadow-lg border border-gray-100 mt-10">
+  
+  <div class="mb-8">
+    <h2 class="text-2xl font-black text-gray-900">➕ Add New Menu Item</h2>
+    <p class="text-sm text-gray-500 mt-1">Fill out the details below to add a new dish to your catalog.</p>
+  </div>
+
+   
+    <!-- Row 1: Name and Price -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+      <div>
+        <label  for="item-name" class="block text-sm font-bold text-gray-700 mb-2">Item Name</label>
+        <input type="text" id="item-name" placeholder="e.g. Paneer Tikka Wrap" required
+          class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-orange-400 focus:border-transparent outline-none transition-all">
+      </div>
+      
+      <div>
+        <label for="item-price" class="block text-sm font-bold text-gray-700 mb-2">Price (₹)</label>
+        <input type="number" id="item-price" placeholder="e.g. 120" min="60" max="200" required
+          class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-orange-400 focus:border-transparent outline-none transition-all">
+      </div>
+    </div>
+
+    <!-- Row 2: Category and Image URL -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+      <div>
+        <label for="item-category" class="block text-sm font-bold text-gray-700 mb-2">Category</label>
+        <select id="item-category" required
+          class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-orange-400 focus:border-transparent outline-none transition-all appearance-none">
+          <option value="" disabled selected>Select a category...</option>
+          <option value="western">Western</option>
+          <option value="snacks">Snacks</option>
+          <option value="sweets">Sweets</option>
+          <option value="beverages">Beverages</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="item-image" class="block text-sm font-bold text-gray-700 mb-2">Image URL</label>
+        <input type="url" id="item-image" placeholder="https://images.unsplash.com/..." required
+          class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-orange-400 focus:border-transparent outline-none transition-all">
+      </div>
+
+      <div>
+        <label  for="item-name" class="block text-sm font-bold text-gray-700 mb-2">Item Id</label>
+        <input type="text" id="item-id" placeholder="e.g. 52" required
+          class="w-full px-4 py-2 rounded-xl border border-gray-200 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-orange-400 focus:border-transparent outline-none transition-all">
+      </div>
+    </div>
+
+    <!-- Row 3: Description -->
+    <div>
+      <label for="item-desc" class="block text-sm font-bold text-gray-700 mb-2">Description</label>
+      <textarea id="item-desc" rows="3" placeholder="A short, tasty description of the dish..." required
+        class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-orange-400 focus:border-transparent outline-none transition-all resize-none"></textarea>
+    </div>
+
+    <!-- Submit Button -->
+    <div class="pt-2">
+      <button onclick="addtoItems(event)"  
+        class="w-full py-3.5 rounded-xl bg-orange-500 hover:bg-orange-600 text-white font-black text-lg shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all active:scale-95">
+        Add to Menu
+      </button>
+    </div>
+
+</div>
+
+
+
+  <script>
+    //deleting the item
+
+   async function deleteItem(id){
+       
+    try{
+      let data= await fetch(('/api/itemsData/'+ id ),{
+        method: 'DELETE'
+      })
+      
+      let response= data.text();
+      console.log(data)
+      console.log(response)
+
+      let elem= document.getElementById(id);
+      elem.style.display='none';
+    }
+
+    catch(e){
+      console.log("The error :"+ e);
+    }
+    }
+
+    //viewing items
+    let itemsCont= document.getElementById('manageItemsTableBody');
+    
+    async function view(){
+    let response= await fetch('/api/itemsData');
+    let items= await response.json();
+    itemsCont.innerHTML='';
+
+    if(items.length == 0){
+     itemsCont.innerHTML= `<tr><td colspan="6" class="px-6 py-4 text-center text-gray-500">No items found.</td></tr>`;
+
+     return;
+    }
+    
+    items.forEach((item)=> {      
+      const row = document.createElement('tr');
+      row.id= item.id;
+        row.innerHTML = `
+          <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${item.id}</td>
+          <td class="px-6 py-4 whitespace-nowrap">
+            <img src="${item.image}" alt="${item.name}" class="w-10 h-10 object-cover rounded-md shadow">
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 font-semibold">${item.name}</td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 capitalize">${item.category}</td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">₹${item.price}</td>
+          <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+            <button  onclick="deleteItem(${item.id})" class="bg-red-500 text-white px-3 py-1.5 rounded-md hover:bg-red-600 transition shadow">
+              🗑️ Delete
+            </button>
+            
+          </td>
+        `;
+
+        itemsCont.appendChild(row);
+    });
+
+    }
+
+    view();
+
+    //insertion items function
+
+   async function addtoItems(event){
+
+    let name= document.getElementById('item-name').value;
+    let price= document.getElementById('item-price').value;
+    let desc= document.getElementById('item-desc').value;
+    let image= document.getElementById('item-image').value;
+    let category = document.getElementById('item-category').value;
+    let id = document.getElementById('item-id').value;
+
+   const details={
+    id: id,
+    name: name,
+    price: price,
+    desc: desc,
+    image: image,
+    category: category
+   };
+
+   let data= await fetch('/api/itemsData',{
+    method: 'POST',
+    headers: {'content-type': 'application/json'},
+    body: JSON.stringify(details)
+   });
+   
+  event.target.style.background='lime';
+  let target = event.target;
+
+  setTimeout(()=>{
+    target.style.background='orange';
+  },2000);
+   
+
+   }
+     
+
+    //deletion function
+    
+    // Fetch orders from server API
+    async function fetchOrders() {
+      try {
+        const response = await fetch('/api/orders');
+        const orders = await response.json();
+       
+        const tbody = document.getElementById('orders-table-body');
+
+        if (orders.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="6" class="p-6 text-center text-gray-500">No active orders found in the database.</td></tr>`;
+          return;
+        }
+
+        tbody.innerHTML = orders.map(order => `
+          <tr class="border-b hover:bg-gray-50 transition-all">
+            <td class="p-4 font-bold text-gray-800">${order.id}</td>
+            <td class="p-4">
+              ${order.userID}
+            </td>
+            <td class="p-4 font-semibold text-gray-900">${order.name}</td>
+            <td class="p-4 text-orange-600 font-bold">₹${order.price}</td>
+            <td class="p-4 text-center">
+              <button onclick="cancelOrder(${order.id})" class="px-4 py-2 bg-red-500 text-white font-bold rounded-xl text-sm hover:bg-red-600 transition-all">
+                 ✕
+              </button>
+              <button onclick="viewInfo(${order.id})" class="px-4 py-2 bg-green-500 text-white font-bold rounded-xl text-sm hover:bg-greenr-600 transition-all">
+                 View Info
+              </button>
+            </td>
+          </tr>
+        `).join('');
+      } catch (err) {
+        console.error('Failed to load orders:', err);
+      }
+    }
+
+
+    function viewInfo(orderId){
+      window.location.href= `orderInfo.html?id=${orderId}`;
+    }
+
+    // Cancel / Delete Order Function
+    async function cancelOrder(id) {
+      if (!confirm(`Are you sure you want to cancel order #${id}?`)) return;
+      
+        try{
+           
+        const response = await fetch(`api/orders/${id}`,{method: 'DELETE'});
+         
+        const result = await response.json();
+
+        if (result.success) {
+        location.reload(); 
+      } else {
+        alert('Could not delete the item.');
+      }
+       }
+
+       catch(err){
+        console.log("the error is ", err)
+       }
+    }
+
+    // Load orders on page open
+    fetchOrders();
+  </script>
+</body>
+</html>
