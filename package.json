@@ -1,0 +1,28 @@
+{
+  "name": "sk-shop",
+  "version": "1.0.0",
+  "description": "This is an E-commerce Food delivery website created with vanilla Node js and mySQL database . user can order food at the desired address . it also contains the admin dashboard which can only y be accessed by admin. many updates will come for this project , stay tuned.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SKDev442/Food-delivery-website-.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/SKDev442/Food-delivery-website-/issues"
+  },
+  "homepage": "https://github.com/SKDev442/Food-delivery-website-#readme",
+  "dependencies": {
+    "dotenv": "^18.0.9",
+    "express": "^5.3.0",
+    "mysql2": "^3.24.6",
+    "nodemailer": "^10.2.1"
+  }
+}
