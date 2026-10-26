@@ -212,8 +212,14 @@
                         body: JSON.stringify(info)
                     });
 
-                    let response= await data.text();
-                    
+                    let response= await data.json();
+
+          console.log(response)
+            //     alert(response.info)
+                  localStorage.setItem('username',response.info.name);
+                    localStorage.setItem('userId', response.id);
+            
+                   
                     window.location.href = 'items.html'; // Redirect to home/dashboard
                 } else {
                     alert("❌ Incorrect OTP. Please try again.");

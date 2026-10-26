@@ -173,14 +173,13 @@
           <span class="text-2xl font-black text-saffron">₹<span id="cart-total-price">0</span></span>
         </div>
         
-        <a href='payment.html'>
-        <button  
-
+        
+        <button onclick="toPay()" 
           class="w-full py-4 rounded-2xl bg-saffron text-white font-bold text-lg shadow-clay-btn active:shadow-clay-btn-active transition-all"
         >
           Place Delivery Order 🛵
         </button>
-        </a>
+       
       </div>
 
     </div>
@@ -211,6 +210,25 @@ try {
   cart = [];
 }
 
+
+function toPay(){
+
+  let user= localStorage.getItem('username');
+  let address= localStorage.getItem('address');
+
+  console.log(user +' and '+ address)
+  if(user == undefined || user == ''){
+    alert('create an account for making an order.');
+  }
+
+else  if(address == undefined || address == ''){
+    alert('Please add an address ');
+  }
+  
+  else{
+  window.location.href= '/payment.html';
+  }
+}
     // Filter Logic
     function getFilteredProducts() {
       return productsData.filter(p => {
@@ -466,6 +484,7 @@ try {
     window.removeFromCart = removeFromCart;
     window.toggleCartModal = toggleCartModal;
     window.tp= totalPrice;
+    window.toPay= toPay;
   //  window.placeOrder = placeOrder;
 
     // Initial load

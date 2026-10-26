@@ -27,6 +27,11 @@ const dbConfig = {
         }
     });
 
+//username = tester
+//userId= 3
+// addresss can be added further
+
+
 // Create the database connection
 const db = mysql.createConnection(dbConfig);
 
@@ -292,7 +297,7 @@ const server = http.createServer((req, res) => {
 
        let values = [info.name, info.email, info.password];
 
-       db.query(query , values , (err, info)=>{
+       db.query(query , values , (err, result)=>{
 
         if(err){
          res.writeHead(500,{'content-type': 'text/plain'});
@@ -300,9 +305,13 @@ const server = http.createServer((req, res) => {
         }
 
         else{
-           res.writeHead(200,{'content-type': 'text/plain'});
-           res.end("information inserted in database");
+         let userID=  result.insertId;
+          let obj={info: info,id: userID};
+           res.writeHead(200,{'content-type': 'application/json'});
+           //console.log(info)
+           res.end(JSON.stringify(obj));
         }
+          
        })
 
    
