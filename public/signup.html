@@ -218,7 +218,39 @@
             //     alert(response.info)
                   localStorage.setItem('username',response.info.name);
                     localStorage.setItem('userId', response.id);
-            
+                    
+                 let addData=await fetch('/api/fetchAddress', {
+                        method: 'POST',
+                        headers:{'content-type':'application/json'},
+                        body: response.id
+                    })
+
+                    let infoR=await addData.json();
+                    let currentAdd={
+                        address:'',
+                         phone: '',
+                         city: '',
+                         id: ''
+                    };
+                    
+                    if(infoR.address !=null){
+                        currentAdd.address= infoR.address;
+                        currentAdd.phone= infoR.phoneNumber;
+                        currentAdd.city= infoR.city;
+                        currentAdd.id = Number(infoR.id);
+
+                        localStorage.setItem('address',JSON.stringify(currentAdd))
+                    }
+
+                    else{
+                        localStorage.setItem('address', '');
+                    }
+
+                    
+
+                   // console.log(addRes)
+
+
                    
                     window.location.href = 'items.html'; // Redirect to home/dashboard
                 } else {

@@ -136,7 +136,37 @@
             localStorage.setItem('username', response.name);
             localStorage.setItem('userId', response.id);
              
-            window.location.href = 'items.html';
+
+             let addData=await fetch('/api/fetchAddress', {
+                        method: 'POST',
+                        headers:{'content-type':'application/json'},
+                        body: response.id
+                    })
+
+                    let info=await addData.json();
+                    let currentAdd={
+                        address:'',
+                         phone: '',
+                         city: '',
+                         id: ''
+                    };
+                    
+                    if(info.address !=null){
+                        currentAdd.address= info.address;
+                        currentAdd.phone= info.phoneNumber;
+                        currentAdd.city= info.city;
+                        currentAdd.id = Number(info.id);
+
+                        localStorage.setItem('address',JSON.stringify(currentAdd))
+                    }
+
+                    else{
+                        localStorage.setItem('address', '');
+                    }
+
+                   // console.log(info)
+
+           window.location.href = 'items.html';
         } else {
             // Handle incorrect login case (turn off loading so they can try again)
             alert(response.text || "Login failed");

@@ -320,6 +320,37 @@ const server = http.createServer((req, res) => {
     return;
   }
 
+
+  if(req.url == '/api/fetchAddress' && req.method== 'POST'){
+
+    let body='';
+    req.on('data',(chunks)=>{
+     body+= chunks.toString();
+    })
+
+    req.on('end',()=>{
+    let id= body;
+
+    db.query('SELECT * FROM users WHERE id= ?', [id],(err,result)=>{
+       
+      if(err){
+         res.writeHead(500,{'content-type': 'text/plain'});
+         res.end('error happened : '+ err.message);
+        }
+
+        else{
+         // console.log(result);
+          res.writeHead(500,{'content-type': 'text/plain'});
+         res.end(JSON.stringify(result[0]));
+        }
+
+    })
+
+    })
+
+    return;
+  }
+
   
   if(req.url == '/api/sendOtp' && req.method == 'POST'){
     
